@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+	<constant name="struts.configuration.xml.reload" value="true" />
+	
+	<package name="category" extends="struts-default" namespace="/">
+		<action name="category" class="com.baizhiedu.action.CategoryAction" method="queryCategory">
+			<result name="success">/main/category.jsp</result>
+		</action>
+		<action name="categoryById" class="com.baizhiedu.action.CategoryAction" method="queryCategoryById" >
+			<result name="success">/main/cate_list.jsp</result>
+		</action>
+		<action name="categoryBySiteId" class="com.baizhiedu.action.CategoryAction" method="queryCategoryBySiteId" >
+			<result name="success">/main/site.jsp</result>
+		</action>
+		<action name="categoryByProductId" class="com.baizhiedu.action.CategoryAction" method="queryCategoryByProductId" >
+			<result name="success">/main/cate.jsp</result>
+		</action>
+	</package>
+	
+	<package name="product" extends="struts-default" namespace="/">
+		<action name="hot" class="com.baizhiedu.action.ProductAction" method="queryHot">
+			<result name="success">/main/hot.jsp</result>
+		</action>
+		<action name="new" class="com.baizhiedu.action.ProductAction" method="queryNew">
+			<result name="success">/main/new.jsp</result>
+		</action>
+		<action name="hotBoard" class="com.baizhiedu.action.ProductAction" method="queryHotBoard">
+			<result name="success">/main/hotBoard.jsp</result>
+		</action>
+		<action name="recommend" class="com.baizhiedu.action.ProductAction" method="queryRecommend">
+			<result name="success">/main/recommend.jsp</result>
+		</action>
+		<action name="productlist" class="com.baizhiedu.action.ProductAction" method="queryCategory">
+			<result name="success">/main/product_list.jsp</result>
+		</action>
+		<action name="product" class="com.baizhiedu.action.ProductAction" method="queryProduct">
+			<result name="success">/main/product.jsp</result>
+		</action>
+	</package>
+	
+	<package name="item" extends="struts-default" namespace="/">
+		<action name="addCart" class="com.baizhiedu.action.ItemAction" method="addCart" >
+			<result name="success" type="redirect">/cart/cart_list.jsp</result>
+		</action>
+		<action name="modify" class="com.baizhiedu.action.ItemAction" method="modify" >
+			<result name="success" type="redirect">/cart/cart_list.jsp</result>
+		</action>
+		<action name="remove" class="com.baizhiedu.action.ItemAction" method="remove" >
+			<result name="success" type="redirect">/cart/cart_list.jsp</result>
+		</action>
+		<action name="recovery" class="com.baizhiedu.action.ItemAction" method="recovery" >
+			<result name="success" type="redirect">/cart/cart_list.jsp</result>
+		</action>
+	</package>
+	 
+	<package name="user" extends="struts-default" namespace="/">
+		<action name="register" class="com.baizhiedu.action.UserAction" method="register">
+			<result name="success" type="chain">verify</result>
+		</action>
+		<action name="verify" class="com.baizhiedu.action.UserAction" method="verify">
+			<result name="success" type="redirect">/user/verify_form.jsp</result>
+		</action>
+		<action name="activation" class="com.baizhiedu.action.UserAction" method="activation">
+			<result name="success" type="redirect">/user/register_ok.jsp</result>
+			<result name="toAddress" type="redirect">/order/address_form.jsp</result>
+		</action>
+		<action name="login" class="com.baizhiedu.action.UserAction" method="login">
+			<result name="success" type="redirect">/main/main.jsp</result>
+			<result name="toAddress" type="redirect">/order/address_form.jsp</result>
+			<result name="toVerify" type="chain">verify</result>
+		</action>
+		<action name="coerceLogin" class="com.baizhiedu.action.UserAction" method="coerceLogin">
+			<result name="success" type="redirect">/order/address_form.jsp</result>
+			<result name="toLogin" type="redirect">/user/login_form.jsp</result>
+			<result name="toVerify" type="chain">verify</result>
+		</action>
+	</package>
+	
+	<package name="address" extends="struts-default" namespace="/">
+		<action name="addAddress" class="com.baizhiedu.action.AddressAction" method="addAddress">
+			<result name="success">/order/ok.jsp</result>
+		</action>
+		<action name="queryAddressByUserId" class="com.baizhiedu.action.AddressAction" method="queryAddressByUserId">
+			<result name="success">/order/address.jsp</result>
+		</action>
+		<action name="queryAddressById" class="com.baizhiedu.action.AddressAction" method="queryAddressById">
+			<result name="success">/order/form.jsp</result>
+		</action>
+	</package>
+	
+	<package name="validate" extends="struts-default" namespace="/">
+		<action name="getValidate" class="com.baizhiedu.action.GetValidate" />
+	</package>
+</struts>

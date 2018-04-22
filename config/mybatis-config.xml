@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "mybatis-3-config.dtd" >
+<configuration>
+
+	<!-- 引入数据库配置文件 -->
+	<properties resource="jdbc.properties" />
+	
+ 	<settings>
+		<!-- 开启缓存设置 -->
+		<setting name="cacheEnabled" value="true"/>
+	</settings>
+	
+	<!-- 别名 -->
+	<typeAliases>
+		<typeAlias type="com.baizhiedu.entity.Category" alias="Category" />
+		<typeAlias type="com.baizhiedu.entity.Product" alias="Product" />
+		<typeAlias type="com.baizhiedu.entity.User" alias="User" />
+		<typeAlias type="com.baizhiedu.entity.Address" alias="Address" />
+	</typeAliases>
+	
+	<!-- 数据库环境配置、默认使用OracleDB -->
+	<environments default="OracleDB">
+		<environment id="OracleDB">
+			<!-- 数据库连接方式 -->
+			<transactionManager type="JDBC" />
+			<!-- 数据库配置 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="${driver}"/>
+				<property name="url" value="${url}"/>
+				<property name="username" value="${username}"/>
+				<property name="password" value="${password}"/>
+			</dataSource>
+		</environment>
+	</environments>
+	
+	<!-- 注册 -->
+	<mappers>
+		<mapper resource="com/baizhiedu/dao/impl/CategoryDaoMapper.xml"/>
+		<mapper resource="com/baizhiedu/dao/impl/ProductDaoMapper.xml"/>
+		<mapper resource="com/baizhiedu/dao/impl/UserDaoMapper.xml"/>
+		<mapper resource="com/baizhiedu/dao/impl/AddressDaoMapper.xml"/>
+		<mapper resource="com/baizhiedu/dao/impl/ItemDaoMapper.xml"/>
+		<mapper resource="com/baizhiedu/dao/impl/OrderDaoMapper.xml"/>
+	</mappers>
+
+</configuration>

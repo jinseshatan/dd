@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhiedu.dao.ProductDao">
+
+	<cache />
+
+	<resultMap type="Product" id="productResultMap">
+		<id property="productId" column="product_id" />
+		<result property="productName" column="product_name" />
+		<result property="productAuthor" column="product_author" />
+		<result property="productPublish" column="product_publish" />
+		<result property="productPublishTime" column="product_publish_time" />
+		<result property="productEdition" column="product_edition" />
+		<result property="productPrintingTime" column="product_printing_time" />
+		<result property="productImpression" column="product_impression" />
+		<result property="productIsbn" column="product_isbn" />
+		<result property="productWord" column="product_word" />
+		<result property="productPage" column="product_page" />
+		<result property="productSize" column="product_size" />
+		<result property="productPapaer" column="product_paper" />
+		<result property="productPack" column="product_pack" />
+		<result property="productPrice" column="product_price" />
+		<result property="productDprice" column="product_dprice" />
+		<result property="productPic" column="product_pic" />
+		<result property="productRecommend" column="product_recommend" />
+		<result property="productComtentIntro" column="product_content_intro" />
+		<result property="productAuthorIntro" column="product_author_intro" />
+		<result property="productCatolog" column="product_catalog" />
+		<result property="productComment" column="product_comment" />
+		<result property="productSalesVolume" column="product_sales_volume" />
+		<result property="productReleaseTime" column="product_release_time" />
+		<result property="productInventory" column="product_inventory" />
+		<result property="categoryId" column="category_id" />
+		<result property="productScore" column="product_score" />
+		<result property="productPV" column="product_pv" />
+	</resultMap>
+
+	<select id="selectProduct" resultMap="productResultMap">
+		select p.*,rownum rn
+		from (select * from dd_product order by ${content}) p
+		where rownum between 1 and #{end}
+	</select>
+
+	<select id="selectProductByCategoryId" resultMap="productResultMap">
+		<if test="ssc != null">
+			select * from (
+			select p.*,rownum rn
+			from (select * from dd_product
+			where category_id = #{ssc} order by product_release_time desc) p )
+			where rn between ${page.beginRows} and ${page.endRows}
+		</if>
+		<if test="ssc == null">
+			select * from (
+			select p.*,rownum rn
+			from (select * from dd_product
+			where category_id in (
+			select category_id from dd_category where category_parent_id = #{sc})
+			order by product_release_time desc) p
+			)
+			where rn between ${page.beginRows}
+			and ${page.endRows}
+		</if>
+	</select>
+
+	<select id="selectCountProductByCategoryId" resultType="java.lang.Integer">
+		select count(*)
+		from dd_product
+		where category_id in
+		(
+		<if test="ssc != null">#{ssc}</if>
+		<if test="ssc == null">
+			select category_id from dd_category
+			where category_parent_id = #{sc}
+		</if>
+		)
+	</select>
+
+	<select id="selectProductById" resultMap="productResultMap">
+		select * from
+		dd_product where product_id = #{productId}
+	</select>
+
+</mapper>

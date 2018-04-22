@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhiedu.dao.CategoryDao">
+
+	<cache />
+
+	<resultMap type="Category" id="CategoryResultMap">
+		<id column="category_id" property="categoryId" />
+		<result column="category_name" property="categoryName" />
+		<result column="category_parent_id" property="categoryParentId" />
+		<result column="category_count" property="categoryCount" />
+		<collection property="categoryList" ofType="Category">
+			<id property="categoryId" column="id"  />
+			<result property="categoryName" column="name" />
+			<result property="categoryCount" column="count" />
+		</collection>
+	</resultMap>
+	
+	<select id="selectSecondCategory" resultMap="CategoryResultMap">
+		select c1.category_id,c1.category_name,c1.category_parent_id,c1.category_count,c2.category_id as id,c2.category_name as name,c2.category_count as count
+		from dd_category c1
+		right join dd_category c2
+		on c1.category_id = c2.category_parent_id
+	</select>
+	
+	<select id="selectCategoryById" resultMap="CategoryResultMap">
+		select c1.category_id,c1.category_name,c1.category_count,c2.category_id as id,c2.category_name as name,c2.category_count as count
+		from dd_category c1 join dd_category c2 on c1.category_id = c2.category_parent_id
+		where c1.category_id = #{sc}
+	</select>
+	
+	<select id="selectCategoryByProductId" resultMap="CategoryResultMap">
+		select c1.category_id,c1.category_name,c1.category_count,c2.category_id as id,c2.category_name as name,c2.category_count as count
+		from dd_category c1 left join dd_category c2
+		on c1.category_id = c2.category_parent_id
+		where c2.category_id = (select category_id from dd_product where product_id = #{productId})
+	</select>
+
+</mapper>
